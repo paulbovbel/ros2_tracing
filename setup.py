@@ -16,8 +16,8 @@ setup(
     description='Tools for analysing trace data',
     entry_points={
         'console_scripts': [
-            f'convert = {package_name}.convert:main',
             f'trace = {package_name}.trace:main',
+            f'convert = {package_name}.convert:main',
             f'process = {package_name}.process:main',
         ],
     },
