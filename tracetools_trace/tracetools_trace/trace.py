@@ -4,7 +4,12 @@
 
 import sys
 import time
-from tracetools_analysis.tracing.lttng import *
+from tracetools_trace.tools.lttng import (
+    lttng_setup,
+    lttng_start,
+    lttng_stop,
+    lttng_destroy,
+)
 
 def main(argv=sys.argv):
     if len(argv) != 3:
