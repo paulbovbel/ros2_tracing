@@ -18,6 +18,7 @@ setup(
         'console_scripts': [
             f'convert = {package_name}.convert:main',
             f'trace = {package_name}.trace:main',
+            f'process = {package_name}.process:main',
         ],
     },
 )
