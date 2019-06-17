@@ -13,4 +13,16 @@ build:
     - colcon test
   artifacts:
     paths:
-      - build
+      - install
+      
+build_enabled:
+  script:
+    - rosdep update
+    - rosdep install -y --from-paths . -i .
+    - ln -s . src
+    - apt install -y python3-colcon-ros 
+    - colcon build --cmake-args -DWITH_LTTNG=ON
+    - colcon test
+  artifacts:
+    paths:
+      - install
