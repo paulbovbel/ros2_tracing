@@ -16,6 +16,7 @@ build:
   artifacts:
     paths:
       - install
+      - build
       
 build_enabled:
   script:
@@ -24,3 +25,4 @@ build_enabled:
   artifacts:
     paths:
       - install
+      - build
