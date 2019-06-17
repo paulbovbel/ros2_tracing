@@ -1,4 +1,4 @@
-image: ros:crystal-ros-base
+image: ros:dashing-ros-base
 
 variables:
   DOCKER_DRIVER: overlay2
