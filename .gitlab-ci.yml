@@ -17,6 +17,8 @@ build:
     paths:
       - install
       - build
+    report:
+      junit: Test.xml
       
 build_enabled:
   script:
@@ -26,3 +28,5 @@ build_enabled:
     paths:
       - install
       - build
+    report:
+      junit: Test.xml
