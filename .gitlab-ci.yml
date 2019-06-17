@@ -18,7 +18,7 @@ build:
       - install
       - build
     reports:
-      junit: build/**/Testing/*/Test.xml
+      junit: build/**/Test.xml
       
 build_enabled:
   script:
@@ -29,4 +29,4 @@ build_enabled:
       - install
       - build
     reports:
-      junit: build/**/Testing/*/Test.xml
+      junit: build/**/Test.xml
