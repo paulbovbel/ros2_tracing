@@ -16,7 +16,6 @@ build:
   artifacts:
     paths:
       - install
-      - build
     reports:
       junit: build/*/Testing/*/Test.xml
       
@@ -27,6 +26,5 @@ build_enabled:
   artifacts:
     paths:
       - install
-      - build
     reports:
       junit: build/*/Testing/*/Test.xml
