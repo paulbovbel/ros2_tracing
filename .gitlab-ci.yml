@@ -19,20 +19,22 @@ before_script:
 
 build:
   script:
-    - colcon build --symlink-install --packages-up-to tracetools tracetools_test
-    - colcon test --packages-select tracetools tracetools_test
-  artifacts:
-    paths:
-      - install
-    reports:
-      junit: build/*/Testing/*/Test.xml
+    - pwd
+  #   - colcon build --symlink-install --packages-up-to tracetools tracetools_test
+  #   - colcon test --packages-select tracetools tracetools_test
+  # artifacts:
+  #   paths:
+  #     - install
+  #   reports:
+  #     junit: build/*/Testing/*/Test.xml
       
 build_enabled:
   script:
-    - colcon build --symlink-install --cmake-args " -DWITH_LTTNG=ON" --packages-up-to tracetools tracetools_test
-    - colcon test --packages-select tracetools tracetools_test
-  artifacts:
-    paths:
-      - install
-    reports:
-      junit: build/*/Testing/*/Test.xml
+    - pwd
+  #   - colcon build --symlink-install --cmake-args " -DWITH_LTTNG=ON" --packages-up-to tracetools tracetools_test
+  #   - colcon test --packages-select tracetools tracetools_test
+  # artifacts:
+  #   paths:
+  #     - install
+  #   reports:
+  #     junit: build/*/Testing/*/Test.xml
