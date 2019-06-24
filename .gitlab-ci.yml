@@ -11,8 +11,8 @@ before_script:
   - wget -q https://raw.githubusercontent.com/ros2/ros2/master/ros2.repos
   - vcs import src < ros2.repos
   - rm -rf src/ros2/rcl/ src/ros2/rclcpp/
-  - git clone -b instrumentation --single-branch https://$DEPLOY_USERNAME_RCL:$DEPLOY_TOKEN_RCL@gitlab.com/boschresearch/ros-wg/tracing/rcl.git
-  - git clone -b instrumentation --single-branch https://$DEPLOY_USERNAME_RCLCPP:$DEPLOY_TOKEN_RCLCPP@gitlab.com/boschresearch/ros-wg/tracing/rclcpp.git
+  - git clone -b instrumentation --single-branch https://$DEPLOY_USERNAME_RCL:$DEPLOY_TOKEN_RCL@gitlab.com/boschresearch/ros-wg/tracing/rcl.git src/rcl/
+  - git clone -b instrumentation --single-branch https://$DEPLOY_USERNAME_RCLCPP:$DEPLOY_TOKEN_RCLCPP@gitlab.com/boschresearch/ros-wg/tracing/rclcpp.git src/rclcpp/
   - apt-get install --no-install-recommends -y libasio-dev libtinyxml2-dev
   - rosdep update
   - rosdep install --from-paths src --ignore-src --rosdistro dashing -y --skip-keys "console_bridge fastcdr fastrtps libopensplice67 libopensplice69 rti-connext-dds-5.3.1 urdfdom_headers"
@@ -26,9 +26,9 @@ build:
     - find | sed 's|[^/]*/|- |g'
   artifacts:
     paths:
-      - install
+      - ../install
     reports:
-      junit: build/*/Testing/*/Test.xml
+      junit: ../build/*/Testing/*/Test.xml
       
 build_enabled:
   script:
@@ -39,6 +39,6 @@ build_enabled:
     - find | sed 's|[^/]*/|- |g'
   artifacts:
     paths:
-      - install
+      - ../install
     reports:
-      junit: build/*/Testing/*/Test.xml
+      junit: ../build/*/Testing/*/Test.xml
