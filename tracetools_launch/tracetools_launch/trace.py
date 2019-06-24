@@ -1,3 +1,4 @@
+"""Module for the Trace action."""
 
 import os
 from typing import List
@@ -19,12 +20,13 @@ class Trace(Action):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         session_name: str,
         base_path: str = '/tmp',
         events_ust: List[str] = names.DEFAULT_EVENTS_ROS,
         events_kernel: List[str] = names.DEFAULT_EVENTS_KERNEL,
-        **kwargs
+        **kwargs,
     ) -> None:
         """Constructor."""
         super().__init__(**kwargs)
@@ -35,13 +37,11 @@ class Trace(Action):
 
     def execute(self, context: LaunchContext) -> Optional[List[Action]]:
         # TODO make sure this is done as late as possible
-        context.register_event_handler(OnShutdown(
-            on_shutdown=self._destroy,
-        ))
+        context.register_event_handler(OnShutdown(on_shutdown=self._destroy))
         # TODO make sure this is done as early as possible
         self._setup()
 
-    def _setup(self):
+    def _setup(self) -> None:
         print('setting up tracing!')
         lttng.lttng_setup(
             self.__session_name,
@@ -50,7 +50,16 @@ class Trace(Action):
             kernel_events=self.__events_kernel)
         lttng.lttng_start(self.__session_name)
 
-    def _destroy(self, event: Event, context: LaunchContext):
+    def _destroy(self, event: Event, context: LaunchContext) -> None:
         print('destroying tracing session!')
         lttng.lttng_stop(self.__session_name)
         lttng.lttng_destroy(self.__session_name)
+
+    def __repr__(self):
+        return (
+            "Trace("
+            f"session_name='{self.__session_name}', "
+            f"path='{self.__path}', "
+            f"num_events_ust={len(self.__events_ust)}, "
+            f"num_events_kernel={len(self.__events_kernel)})"
+        )
