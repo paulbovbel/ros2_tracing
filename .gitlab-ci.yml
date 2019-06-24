@@ -22,8 +22,8 @@ build:
     - pwd
     - colcon build --symlink-install --packages-up-to tracetools tracetools_test
     - pwd
-    - find | sed 's|[^/]*/|- |g'
     - colcon test --packages-select tracetools tracetools_test
+    - find | sed 's|[^/]*/|- |g'
   artifacts:
     paths:
       - install
@@ -35,8 +35,8 @@ build_enabled:
     - pwd
     - colcon build --symlink-install --cmake-args " -DWITH_LTTNG=ON" --packages-up-to tracetools tracetools_test
     - pwd
-    - find | sed 's|[^/]*/|- |g'
     - colcon test --packages-select tracetools tracetools_test
+    - find | sed 's|[^/]*/|- |g'
   artifacts:
     paths:
       - install
