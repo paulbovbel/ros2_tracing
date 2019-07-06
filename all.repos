@@ -341,5 +341,5 @@ repositories:
     version: master
   tracetools_analysis:
     type: git
-    url: https://github.com/micro-ROS/ros_tracing/tracetools_analysis.git
+    url: https://gitlab.com/micro-ROS/ros_tracing/tracetools_analysis.git
     version: master
