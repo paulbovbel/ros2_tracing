@@ -23,8 +23,9 @@ RUN apt-get install --no-install-recommends -y \
 RUN mkdir /root/ws
 COPY . /root/ws
 WORKDIR /root/ws
-RUN vcs import < ci_source_deps.repos
+RUN vcs import < docker-ci-base/all-ci.repos
 RUN apt-get update && rosdep update && rosdep install --from-paths . --ignore-src --rosdistro dashing -y --skip-keys "console_bridge fastcdr fastrtps libopensplice67 libopensplice69 rti-connext-dds-5.3.1 urdfdom_headers"
 RUN apt-get purge -y ros-dashing-fastrtps
 
-RUN . /opt/ros/dashing/setup.sh && colcon build --symlink-install
+ARG PACKAGES_LIST="ros2trace tracetools tracetools_launch tracetools_read tracetools_test tracetools_trace rcl rclcpp"
+RUN . /opt/ros/dashing/setup.sh && colcon build --symlink-install --packages-up-to $PACKAGES_LIST
