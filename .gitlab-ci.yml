@@ -42,4 +42,4 @@ ci_base_image:
     - docker push $base_image_id
   only:
     - /.*docker.*/
-    - scheduled
+    - schedules
