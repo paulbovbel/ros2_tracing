@@ -2,6 +2,9 @@
 Changelog for package tracetools_test
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.1 (2019-07-12)
+------------------
+
 0.1.0 (2019-07-11)
 ------------------
 * Add tracetools_test package with utilities

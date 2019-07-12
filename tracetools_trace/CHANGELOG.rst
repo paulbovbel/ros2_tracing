@@ -2,6 +2,9 @@
 Changelog for package tracetools_trace
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.1 (2019-07-12)
+------------------
+
 0.1.0 (2019-07-11)
 ------------------
 * Use proper arg parser and event names completers
