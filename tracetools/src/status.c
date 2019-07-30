@@ -22,7 +22,7 @@ int main()
   if (ros_trace_compile_status()) {
     printf("enabled\n");
     return 0;
-  } else {  
+  } else {
     printf("disabled\n");
     return 1;
   }

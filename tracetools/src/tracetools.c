@@ -219,5 +219,4 @@ void TRACEPOINT(
 # pragma GCC diagnostic pop
 #endif
 
-
 #endif  // TRACETOOLS_DISABLED
