@@ -28,5 +28,6 @@ int main()
   }
 #else
   printf("Tracing disabled through configuration\n");
+  return 1;
 #endif
 }
