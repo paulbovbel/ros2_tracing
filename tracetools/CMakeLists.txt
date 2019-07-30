@@ -29,7 +29,7 @@ endif()
 configure_file(include/${PROJECT_NAME}/config.h.in include/${PROJECT_NAME}/config.h)
 
 # add both source and output include, to capture config.h
-include_directories(include ${PROJECT_BINARY_DIR}/include )
+include_directories(include ${PROJECT_BINARY_DIR}/include)
 
 # Status checking tool
 add_executable(status
