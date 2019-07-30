@@ -21,13 +21,13 @@
 #include "tracetools/config.h"
 
 #ifndef TRACETOOLS_DISABLED
-#define TRACEPOINT(event_name, ...) \
+#  define TRACEPOINT(event_name, ...) \
   (ros_trace_ ## event_name)(__VA_ARGS__)
-#define DECLARE_TRACEPOINT(event_name, ...) \
+#  define DECLARE_TRACEPOINT(event_name, ...) \
   void(ros_trace_ ## event_name)(__VA_ARGS__);
 #else
-#define TRACEPOINT(event_name, ...)
-#define DECLARE_TRACEPOINT(event_name, ...)
+#  define TRACEPOINT(event_name, ...)
+#  define DECLARE_TRACEPOINT(event_name, ...)
 #endif
 
 #ifdef __cplusplus
