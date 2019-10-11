@@ -38,4 +38,18 @@ const char * get_symbol(std::function<T(U...)> f)
   return _demangle_symbol(f.target_type().name());
 }
 
+namespace rclcpp
+{
+class TimerBase;
+}
+using VoidCallbackType = std::function<void ()>;
+using TimerCallbackType = std::function<void (rclcpp::TimerBase &)>;
+
+template<>
+const char * get_symbol(VoidCallbackType);
+
+template<>
+const char * get_symbol(TimerCallbackType);
+
+
 #endif  // TRACETOOLS__UTILS_HPP_

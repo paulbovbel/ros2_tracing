@@ -46,3 +46,31 @@ const char * _get_symbol_funcptr(void * funcptr)
   return "DISABLED__get_symbol_funcptr";
 #endif
 }
+
+template<>
+const char * get_symbol(VoidCallbackType f)
+{
+  typedef void (fnType)(void);
+  fnType ** fnPointer = f.template target<fnType *>();
+  // If we get an actual address
+  if (fnPointer != nullptr) {
+    void * funcptr = reinterpret_cast<void *>(*fnPointer);
+    return _get_symbol_funcptr(funcptr);
+  }
+  // Otherwise we have to go through target_type()
+  return _demangle_symbol(f.target_type().name());
+}
+
+template<>
+const char * get_symbol(TimerCallbackType f)
+{
+  typedef void (fnType)(rclcpp::TimerBase &);
+  fnType ** fnPointer = f.template target<fnType *>();
+  // If we get an actual address
+  if (fnPointer != nullptr) {
+    void * funcptr = reinterpret_cast<void *>(*fnPointer);
+    return _get_symbol_funcptr(funcptr);
+  }
+  // Otherwise we have to go through target_type()
+  return _demangle_symbol(f.target_type().name());
+}
