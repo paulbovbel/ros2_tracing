@@ -64,7 +64,7 @@ const char * get_symbol(VoidCallbackType f)
 template<>
 const char * get_symbol(TimerCallbackType f)
 {
-  typedef void (fnType)(rclcpp::TimerBase&);
+  typedef void (fnType)(rclcpp::TimerBase &);
   fnType ** fnPointer = f.template target<fnType *>();
   // If we get an actual address
   if (fnPointer != nullptr) {
