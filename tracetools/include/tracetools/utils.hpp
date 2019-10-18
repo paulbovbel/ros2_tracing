@@ -27,7 +27,6 @@ TRACETOOLS_PUBLIC const char * _demangle_symbol(const char * mangled);
 TRACETOOLS_PUBLIC const char * _get_symbol_funcptr(void * funcptr);
 
 template<typename T, typename ... U>
-TRACETOOLS_PUBLIC
 const char * get_symbol(std::function<T(U...)> f)
 {
   typedef T (fnType)(U...);
@@ -43,7 +42,6 @@ const char * get_symbol(std::function<T(U...)> f)
 
 // Fallback meant for lambdas with captures
 template<typename L>
-TRACETOOLS_PUBLIC
 const char * get_symbol(L && l)
 {
   return _demangle_symbol(typeid(l).name());
