@@ -102,7 +102,7 @@ else()
 endif()
 
 if(BUILD_TESTING)
-  set(AMENT_CMAKE_CPPCHECK_ADDITIONAL_INCLUDE_DIRS ${lttng_INCLUDE_DIRS})
+  set(ament_cmake_cppcheck_ADDITIONAL_INCLUDE_DIRS ${LTTNG_INCLUDE_DIRS})
 
   find_package(ament_cmake_gtest REQUIRED)
   find_package(ament_lint_auto REQUIRED)
