@@ -39,7 +39,7 @@ def is_trace_directory(path: str) -> bool:
     return traces is not None and len(traces) > 0
 
 
-def get_trace_ctf_events(trace_directory: str) -> Iterable[babeltrace.babeltrace.Event]:
+def _get_trace_ctf_events(trace_directory: str) -> Iterable[babeltrace.babeltrace.Event]:
     """
     Get the events of a trace.
 
@@ -49,19 +49,6 @@ def get_trace_ctf_events(trace_directory: str) -> Iterable[babeltrace.babeltrace
     tc = babeltrace.TraceCollection()
     tc.add_traces_recursive(trace_directory, 'ctf')
     return tc.events
-
-
-def get_trace_events(trace_directory: str) -> List[DictEvent]:
-    """
-    Get the events of a trace.
-
-    :param trace_directory: the path to the main/top trace directory
-    :return: events
-    """
-    events: List[DictEvent] = [
-        event_to_dict(event) for event in get_trace_ctf_events(trace_directory)
-    ]
-    return events
 
 
 # List of ignored CTF fields
@@ -82,7 +69,7 @@ _IGNORED_FIELDS = [
 _DISCARD = 'events_discarded'
 
 
-def event_to_dict(event: babeltrace.babeltrace.Event) -> DictEvent:
+def _event_to_dict(event: babeltrace.babeltrace.Event) -> DictEvent:
     """
     Convert name, timestamp, and all other keys except those in IGNORED_FIELDS into a dictionary.
 
@@ -94,3 +81,16 @@ def event_to_dict(event: babeltrace.babeltrace.Event) -> DictEvent:
     meta = {'_name': event.name, '_timestamp': event.timestamp}
     data = {key: event[key] for key in event.keys() if key not in _IGNORED_FIELDS}
     return {**meta, **data}
+
+
+def get_trace_events(trace_directory: str) -> List[DictEvent]:
+    """
+    Get the events of a trace.
+
+    :param trace_directory: the path to the main/top trace directory
+    :return: events
+    """
+    events: List[DictEvent] = [
+        _event_to_dict(event) for event in _get_trace_ctf_events(trace_directory)
+    ]
+    return events
