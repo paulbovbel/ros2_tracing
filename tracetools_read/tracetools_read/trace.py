@@ -34,7 +34,7 @@ def is_trace_directory(path: str) -> bool:
     path = os.path.expanduser(path)
     if not os.path.isdir(path):
         return False
-    return impl.is_trace_directory(path)
+    return impl.is_trace_directory(path)  # type: ignore
 
 
 def get_trace_events(trace_directory: str) -> List[DictEvent]:
@@ -44,4 +44,4 @@ def get_trace_events(trace_directory: str) -> List[DictEvent]:
     :param trace_directory: the path to the main/top trace directory
     :return: events
     """
-    return impl.get_trace_events(trace_directory)
+    return impl.get_trace_events(trace_directory)  # type: ignore

@@ -14,7 +14,7 @@
 
 """Utilities for selecting the right babeltrace version."""
 
-import importlib
+from importlib import util
 from types import ModuleType
 
 
@@ -24,8 +24,8 @@ def get_babeltrace_impl() -> ModuleType:
 
     :return: the babeltrace implementation module
     """
-    bt1_found = importlib.util.find_spec('babeltrace') is not None
-    bt2_found = importlib.util.find_spec('bt2') is not None
+    bt1_found = util.find_spec('babeltrace') is not None
+    bt2_found = util.find_spec('bt2') is not None
     if not bt1_found and not bt2_found:
         raise ModuleNotFoundError('could not find any babeltrace version')
     if bt1_found:
