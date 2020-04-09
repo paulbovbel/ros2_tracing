@@ -122,6 +122,10 @@ install(
 ament_export_include_directories(include)
 if(TRACETOOLS_LTTNG_ENABLED)
   ament_export_libraries(${PROJECT_NAME} ${LTTNG_LIBRARIES})
+  # Export -rdynamic for downstream packages using classic CMake variables
+  if(NOT TRACETOOLS_NO_RDYNAMIC)
+    ament_export_link_flags("-rdynamic")
+  endif()
 else()
   ament_export_libraries(${PROJECT_NAME})
 endif()
