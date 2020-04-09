@@ -68,11 +68,6 @@ foreach(_header ${HEADERS})
   )
 endforeach()
 
-# Only use output/binary include directory
-include_directories(
-  ${PROJECT_BINARY_DIR}/include
-)
-
 add_library(${PROJECT_NAME} ${SOURCES})
 if(TRACETOOLS_LTTNG_ENABLED)
   target_link_libraries(${PROJECT_NAME} ${LTTNG_LIBRARIES})
@@ -83,6 +78,11 @@ if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "TRACETOOLS_BUILDING_DLL")
 endif()
 
+# Only use output/binary include directory
+target_include_directories(${PROJECT_NAME} PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+  "$<INSTALL_INTERFACE:include>"
+)
 ament_export_interfaces(${PROJECT_NAME}_export HAS_LIBRARY_TARGET)
 
 # Status checking tool
