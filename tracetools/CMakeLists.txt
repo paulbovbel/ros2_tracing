@@ -70,7 +70,16 @@ endforeach()
 
 add_library(${PROJECT_NAME} ${SOURCES})
 if(TRACETOOLS_LTTNG_ENABLED)
-  target_link_libraries(${PROJECT_NAME} ${LTTNG_LIBRARIES})
+  # Export -rdynamic for downtream packages to use when calling
+  #   ament_target_dependencies()
+  # which is needed to resolve function addresses to symbols when
+  # using function pointers directly/without std::bind()
+  # (the flag should not be used on Windows, but TRACETOOLS_LTTNG_ENABLED
+  # should never be true on Windows anyway, so there is no need to check)
+  if(NOT TRACETOOLS_NO_RDYNAMIC)
+    set(RDYNAMIC_FLAG "-rdynamic")
+  endif()
+  target_link_libraries(${PROJECT_NAME} ${LTTNG_LIBRARIES} ${RDYNAMIC_FLAG})
 endif()
 if(WIN32)
   # Causes the visibility macros to use dllexport rather than dllimport
@@ -113,15 +122,6 @@ install(
 ament_export_include_directories(include)
 if(TRACETOOLS_LTTNG_ENABLED)
   ament_export_libraries(${PROJECT_NAME} ${LTTNG_LIBRARIES})
-  # Export -rdynamic for downtream packages to use when calling
-  #   ament_target_dependencies()
-  # which is needed to resolve function addresses to symbols when
-  # using function pointers directly/without std::bind()
-  # (the flag should not be used on Windows, but TRACETOOLS_LTTNG_ENABLED
-  # should never be true on Windows anyway, so there is no need to check)
-  if(NOT TRACETOOLS_NO_RDYNAMIC)
-    ament_export_link_flags("-rdynamic")
-  endif()
 else()
   ament_export_libraries(${PROJECT_NAME})
 endif()
