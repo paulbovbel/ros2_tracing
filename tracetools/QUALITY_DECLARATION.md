@@ -136,7 +136,7 @@ This package does not have any optional runtime ROS dependencies.
 
 ### Direct Runtime non-ROS Dependency [5.iii]
 
-`tracetools` has a run-time dependency on [LTTng](https://lttng.org/docs/v2.11/). It is stable, is tested extensively, has a strict version policy, and is designed for production systems. Therefore it is considered equivalent to **Quality Level 1**.
+`tracetools` has a run-time dependency on [LTTng](https://lttng.org/docs/v2.11/). A Quality Level review for LTTng has yet to be done.
 
 ## Platform Support [6]
 
@@ -193,7 +193,7 @@ The table below compares the requirements in REP-2004 with the current state of 
 |5| **Dependencies** ||
 |5.i| Must not have lower level ROS dependencies | ✓ |
 |5.ii| Optional ROS lower level dependencies | ✓ |
-|5.iii| Justifies quality use of non-ROS dependencies | ✓ |
+|5.iii| Justifies quality use of non-ROS dependencies |  |
 |6| **Platform Support** ||
 |6.i| Support targets tier 1 ROS platforms | ✓ |
 |7| **Security** ||
