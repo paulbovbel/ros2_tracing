@@ -2,7 +2,7 @@ This document is a declaration of software quality for the `tracetools` package,
 
 # `tracetools` Quality Declaration
 
-The package `tracetools` claims to be in the **Quality Level 1** category.
+The package `tracetools` claims to be in the **Quality Level 4** category.
 
 Below are the rationales, notes, and caveats for this claim, organized by each requirement listed in the [Package Requirements for Quality Level 1 in REP-2004](https://www.ros.org/reps/rep-2004.html).
 
@@ -14,9 +14,7 @@ Below are the rationales, notes, and caveats for this claim, organized by each r
 
 ### Version Stability [1.ii]
 
-`tracetools` is at or above a stable version, i.e. `>= 1.0.0`.
-
-**TODO** the current version is `0.3.0`.
+`tracetools` is not currently at or above a stable version, i.e. `>= 1.0.0`.
 
 ### Public API Declaration [1.iii]
 
@@ -44,9 +42,7 @@ All changes occur through a merge request.
 
 All changes must have confirmation of contributor origin.
 
-**TODO** set up DCO check
-
-**TODO** what about past changes?
+`tracetools` does not currently have any automated check for that.
 
 ### Peer Review Policy [2.iii]
 
@@ -54,9 +50,13 @@ All merge requests must have at least one peer review.
 
 ### Continuous Integration [2.iv]
 
-All merge requests must pass CI on all [tier 1 platforms](https://www.ros.org/reps/rep-2000.html#support-tiers).
+All merge requests must pass CI on Ubuntu amd64.
 
-**TODO** set up CI for arm64/macOS/Windows or find alternative
+Nightly results for all [tier 1 platforms as defined in REP-2000](https://www.ros.org/reps/rep-2000.html#support-tiers) can be found here (note that only the tagged release used in the [`ros2.repos`](https://github.com/ros2/ros2/blob/master/ros2.repos) file is tested nightly):
+* [linux-aarch64_release](https://ci.ros2.org/view/nightly/job/nightly_linux-aarch64_release/lastBuild/testReport/tracetools/)
+* [linux-amd64_release](https://ci.ros2.org/view/nightly/job/nightly_linux_release/lastBuild/testReport/tracetools/)
+* [macos_release](https://ci.ros2.org/view/nightly/job/nightly_osx_release/lastBuild/testReport/tracetools/)
+* [windows_release](https://ci.ros2.org/view/nightly/job/nightly_win_rel/lastBuild/testReport/tracetools/)
 
 ### Documentation Policy [2.v]
 
@@ -64,20 +64,17 @@ All merge requests must resolve related documentation changes before merging.
 
 ## Documentation [3]
 
-`tracetools` follows the recommended guidelines for ROS Core packages in the [ROS 2 Developer Guide](https://index.ros.org/doc/ros2/Contributing/Developer-Guide/#documentation).
+`tracetools` does not currently follow all the recommended guidelines for ROS Core packages in the [ROS 2 Developer Guide](https://index.ros.org/doc/ros2/Contributing/Developer-Guide/#documentation).
 
 ### Feature Documentation [3.i]
 
-`tracetools` has a [feature list](TODO) and each item in the list links to the corresponding feature documentation.
-There is [documentation](../doc/design_ros_2.md) for all of the features, and new features require documentation before being added.
+`tracetools` has [documentation](../doc/design_ros_2.md) for all of its features, and new features require documentation before being added.
 
-**TODO** add feature list and documentation
+It does not currently have a features list with links to the corresponding feature documentation.
 
 ### Public API Documentation [3.ii]
 
-`tracetools` has embedded API documentation for all of its public API, and new additions to the public API require documentation before being added.
-
-**TODO** document API
+`tracetools` does not currently have documentation for its public API.
 
 ### License [3.iii]
 
@@ -110,18 +107,15 @@ The tests aim to cover both typical usage and corner cases, but are quantified b
 This includes:
 
 - tracking and reporting line coverage statistics
-- achieving and maintaining line coverage at or above 95%
 - no lines are manually skipped in coverage calculations
 
 Changes are required to make a best effort to keep or increase coverage before being accepted, but decreases are allowed if properly justified and accepted by reviewers.
 
-Current coverage statistics can be viewed here:
-
-**TODO** add code coverage visualization link
+Current coverage statistics can be viewed in the [results of the latest `coverage` CI job](https://gitlab.com/micro-ROS/ros_tracing/ros2_tracing/pipelines/latest).
 
 ### Performance [4.iv]
 
-**TODO**
+`tracetools` does not currently have any performance tests.
 
 ### Linters and Static Analysis [4.v]
 
@@ -145,4 +139,59 @@ It also has a few test dependencies, which do not affect the resulting quality o
 `tracetools` supports all of the tier 1 platforms as described in [REP-2000](https://www.ros.org/reps/rep-2000.html#support-tiers), and tests each change against all of them.
 However, due to the nature of its features, they only work on Linux-based systems.
 
-**TODO** same as [2.iv]
+Nightly results can be found here:
+* [linux-aarch64_release](https://ci.ros2.org/view/nightly/job/nightly_linux-aarch64_release/lastBuild/testReport/tracetools/)
+* [linux-amd64_release](https://ci.ros2.org/view/nightly/job/nightly_linux_release/lastBuild/testReport/tracetools/)
+* [macos_release](https://ci.ros2.org/view/nightly/job/nightly_osx_release/lastBuild/testReport/tracetools/)
+* [windows_release](https://ci.ros2.org/view/nightly/job/nightly_win_rel/lastBuild/testReport/tracetools/)
+
+# Current Status
+
+The table below compares the requirements in REP-2004 with the current state of the `tracetools` package.
+
+|Number| Requirement | Current state |
+|--|--|--|
+|1| **Version policy** ||
+|1.i| Version policy | ✓ |
+|1.ii| Stable version |  |
+|1.iii| Strictly declared public API | ✓ |
+|1.iv| API stability policy | ✓ |
+|1.v| ABI stability policy | ✓ |
+|1.vi| API/ABI stablility policy within ROS distribution | ✓ |
+|2| **Change control process** ||
+|2.i| All changes occur through change request | ✓ |
+|2.ii| Confirmation of contributor origin | ✓ * |
+|2.iii| Peer review policy | ✓ * |
+|2.iv| CI policy for change requests | ✓ |
+|2.v| Documentation policy for change requests | ✓ |
+|3| **Documentation** ||
+|3.i| Per feature documentation | ✓ |
+|3.ii| Public API documentation |  |
+|3.iii| Declared license(s) | ✓ |
+|3.iv| Copyright in source files | ✓ |
+|3.v.a| Quality declaration linked to from README | ✓ |
+|3.v.b| Centralized declaration available for peer review |  |
+|4| **Testing** ||
+|4.i| Feature items tests | ✓ |
+|4.ii| Public API tests | ✓ |
+|4.iii.a| Using coverage | ✓ |
+|4.iii.a| Coverage policy |  |
+|4.iv.a| Performance tests |  |
+|4.iv.b| Performance tests policy |  |
+|4.v.a| Code style enforcement (linters) | ✓ |
+|4.v.b| Use of static analysis tools | ✓ |
+|5| **Dependencies** ||
+|5.i| Must not have lower level ROS dependencies | ✓ |
+|5.ii| Optional ROS lower level dependencies | ✓ |
+|5.iii| Justifies quality use of non-ROS dependencies | ✓ |
+|6| **Platform Support** ||
+|6.i| Support targets tier 1 ROS platforms | ✓ |
+|7| **Security** ||
+|7.i| Vulnerability Disclosure Policy |  |
+
+\* : going forward
+
+Comparing this table to the [Quality Level Comparison Chart of REP-2004](https://www.ros.org/reps/rep-2004.html#quality-level-comparison-chart) led us to conclude that this package qualifies for Quality Level 4.
+
+Missing for Quality Level 3:
+* 1.ii Stable version
