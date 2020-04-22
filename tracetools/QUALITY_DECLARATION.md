@@ -145,6 +145,12 @@ Nightly results can be found here:
 * [macos_release](https://ci.ros2.org/view/nightly/job/nightly_osx_release/lastBuild/testReport/tracetools/)
 * [windows_release](https://ci.ros2.org/view/nightly/job/nightly_win_rel/lastBuild/testReport/tracetools/)
 
+## Security [7]
+
+### Vulnerability Disclosure Policy [7.i]
+
+`tracetools` does not currently have a vulnerability disclosure policy.
+
 # Current Status
 
 The table below compares the requirements in REP-2004 with the current state of the `tracetools` package.
