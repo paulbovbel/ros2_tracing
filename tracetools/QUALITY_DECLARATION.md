@@ -128,7 +128,11 @@ It also has a few test dependencies, which do not affect the resulting quality o
 
 ### Direct Runtime ROS Dependencies [5.i]
 
+This package does not have any runtime ROS dependencies.
+
 ### Optional Direct Runtime ROS Dependencies [5.ii]
+
+This package does not have any optional runtime ROS dependencies.
 
 ### Direct Runtime non-ROS Dependency [5.iii]
 
