@@ -76,7 +76,7 @@ def setup(
     :return: the full path to the trace directory
     """
     # Check if there is a session daemon running
-    if lttng.session_daemon_alive() == 0:
+    if lttng.session_daemon_alive() != 1:
         # Otherwise spawn one without doing any error checks
         subprocess.run(
             ['lttng-sessiond', '--daemonize'],
