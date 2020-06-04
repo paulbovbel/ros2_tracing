@@ -19,8 +19,9 @@ if(WIN32)
 else()
   set(DISABLED_DEFAULT OFF)
 endif()
-option(TRACETOOLS_DISABLED "Explicitly disable support for tracing" ${DISABLED_DEFAULT})
+option(TRACETOOLS_DISABLED "Explicitly disable support for tracing" ON)
 option(TRACETOOLS_NO_RDYNAMIC "Disable export of -rdynamic link flag" OFF)
+option(TRACETOOLS_STATUS_CHECKING_TOOL "Enable the status checking tool" OFF)
 
 if(NOT TRACETOOLS_DISABLED)
   # Set TRACETOOLS_LTTNG_ENABLED if we can find lttng-ust
@@ -94,17 +95,19 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 ament_export_targets(${PROJECT_NAME}_export HAS_LIBRARY_TARGET)
 
-# Status checking tool
-add_executable(status
-  src/status.c
-)
-target_link_libraries(status
-  ${PROJECT_NAME}
-)
-install(TARGETS
-  status
-  DESTINATION lib/${PROJECT_NAME}
-)
+if(TRACETOOLS_STATUS_CHECKING_TOOL)
+  # Status checking tool
+  add_executable(status
+    src/status.c
+  )
+  target_link_libraries(status
+    ${PROJECT_NAME}
+  )
+  install(TARGETS
+    status
+    DESTINATION lib/${PROJECT_NAME}
+  )
+endif()
 
 install(
   DIRECTORY ${PROJECT_BINARY_DIR}/include/
