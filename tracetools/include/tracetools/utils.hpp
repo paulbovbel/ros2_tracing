@@ -65,6 +65,6 @@ const char * get_symbol(L && l)
   return _demangle_symbol(typeid(l).name());
 }
 
-#endif // TRACETOOLS_DISABLED
+#endif  // TRACETOOLS_DISABLED
 
 #endif  // TRACETOOLS__UTILS_HPP_
