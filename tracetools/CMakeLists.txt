@@ -19,7 +19,7 @@ if(WIN32)
 else()
   set(DISABLED_DEFAULT OFF)
 endif()
-option(TRACETOOLS_DISABLED "Explicitly disable support for tracing" ON)
+option(TRACETOOLS_DISABLED "Explicitly disable support for tracing" ${DISABLED_DEFAULT})
 option(TRACETOOLS_NO_RDYNAMIC "Disable export of -rdynamic link flag" OFF)
 option(TRACETOOLS_STATUS_CHECKING_TOOL "Enable the status checking tool" OFF)
 
