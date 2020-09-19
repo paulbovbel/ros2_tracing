@@ -298,6 +298,19 @@ DECLARE_TRACEPOINT(
   const char * start_label,
   const char * goal_label)
 
+/// `rclcpp_lifecycle_node_init`
+/**
+ * Lifecycle node object initialisation.
+ * Links the `rclcpp_lifecycle::LifecycleNode` object to its `rcl_node_t` handle.
+ *
+ * \param[in] node_handle pointer to the node's `rcl_node_t` handle
+ * \param[in] lifecycle_node pointer to this lifecycle node object
+ */
+DECLARE_TRACEPOINT(
+  rclcpp_lifecycle_node_init,
+  const void * node_handle,
+  const void * lifecycle_node)
+
 #ifdef __cplusplus
 }
 #endif

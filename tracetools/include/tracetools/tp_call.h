@@ -263,6 +263,19 @@ TRACEPOINT_EVENT(
   )
 )
 
+TRACEPOINT_EVENT(
+  TRACEPOINT_PROVIDER,
+  rclcpp_lifecycle_node_init,
+  TP_ARGS(
+    const void *, node_handle_arg,
+    const void *, lifecycle_node_arg
+  ),
+  TP_FIELDS(
+    ctf_integer_hex(const void *, node_handle, node_handle_arg)
+    ctf_integer_hex(const void *, lifecycle_node, lifecycle_node_arg)
+  )
+)
+
 #endif  // _TRACETOOLS__TP_CALL_H_
 
 #include <lttng/tracepoint-event.h>

@@ -75,6 +75,7 @@ DEFAULT_EVENTS_ROS = [
     'ros2:callback_end',
     'ros2:rcl_lifecycle_state_machine_init',
     'ros2:rcl_lifecycle_transition',
+    'ros2:rclcpp_lifecycle_node_init',
 ]
 
 DEFAULT_EVENTS_UST = DEFAULT_EVENTS_ROS

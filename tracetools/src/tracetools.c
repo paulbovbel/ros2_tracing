@@ -240,6 +240,17 @@ void TRACEPOINT(
     goal_label);
 }
 
+void TRACEPOINT(
+  rclcpp_lifecycle_node_init,
+  const void * node_handle,
+  const void * lifecycle_node)
+{
+  CONDITIONAL_TP(
+    rclcpp_lifecycle_node_init,
+    node_handle,
+    lifecycle_node);
+}
+
 #ifndef _WIN32
 # pragma GCC diagnostic pop
 #else
