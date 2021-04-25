@@ -1,5 +1,5 @@
 // Copyright 2019 Robert Bosch GmbH
-// Copyright 2020 Christophe Bedard
+// Copyright 2020-2021 Christophe Bedard
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -77,6 +77,19 @@ TRACEPOINT_EVENT(
     ctf_integer_hex(const void *, rmw_publisher_handle, rmw_publisher_handle_arg)
     ctf_string(topic_name, topic_name_arg)
     ctf_integer(const size_t, queue_depth, queue_depth_arg)
+  )
+)
+
+TRACEPOINT_EVENT(
+  TRACEPOINT_PROVIDER,
+  rmw_publish,
+  TP_ARGS(
+    const void *, rmw_publisher_handle_arg,
+    const void *, message_arg
+  ),
+  TP_FIELDS(
+    ctf_integer_hex(const void *, rmw_publisher_handle, rmw_publisher_handle_arg)
+    ctf_integer_hex(const void *, message, message_arg)
   )
 )
 
