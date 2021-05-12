@@ -30,6 +30,7 @@ class TestPublisher(TraceTestCase):
                 'ros2:rcl_publish',
                 'ros2:rclcpp_publish',
             ],
+            package='test_tracetools',
             nodes=['test_publisher'],
         )
 
