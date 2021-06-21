@@ -315,6 +315,30 @@ TRACEPOINT_EVENT(
   )
 )
 
+TRACEPOINT_EVENT(
+  TRACEPOINT_PROVIDER,
+  control_controller_init,
+  TP_ARGS(
+    const void *, controller_handle_arg,
+    const char *, controller_name_arg
+  ),
+  TP_FIELDS(
+    ctf_integer_hex(const void *, controller_handle, controller_handle_arg)
+    ctf_string(controller_name, controller_name_arg)
+  )
+)
+
+TRACEPOINT_EVENT(
+  TRACEPOINT_PROVIDER,
+  control_controller_update,
+  TP_ARGS(
+    const void *, controller_handle_arg
+  ),
+  TP_FIELDS(
+    ctf_integer_hex(const void *, controller_handle, controller_handle_arg)
+  )
+)
+
 #endif  // _TRACETOOLS__TP_CALL_H_
 
 #include <lttng/tracepoint-event.h>

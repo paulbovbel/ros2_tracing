@@ -352,6 +352,28 @@ DECLARE_TRACEPOINT(
   const char * start_label,
   const char * goal_label)
 
+/// `control_controller_init`
+/**
+ * ros2_control controller initialization.
+ *
+ * \param[in] controller_handle pointer to the controller
+ * \param[in] controller_name name of the controller
+ */
+DECLARE_TRACEPOINT(
+  control_controller_init,
+  const void * controller_handle,
+  const char * controller_name)
+
+/// `control_controller_update`
+/**
+ * ros2_control controller update.
+ *
+ * \param[in] controller_handle pointer to the controller
+ */
+DECLARE_TRACEPOINT(
+  control_controller_update,
+  const void * controller_handle)
+
 #ifdef __cplusplus
 }
 #endif

@@ -284,6 +284,26 @@ void TRACEPOINT(
     goal_label);
 }
 
+void TRACEPOINT(
+  control_controller_init,
+  const void * controller_handle,
+  const char * controller_name)
+{
+  CONDITIONAL_TP(
+    control_controller_init,
+    controller_handle,
+    controller_name);
+}
+
+void TRACEPOINT(
+  control_controller_update,
+  const void * controller_handle)
+{
+  CONDITIONAL_TP(
+    control_controller_update,
+    controller_handle);
+}
+
 #ifndef _WIN32
 # pragma GCC diagnostic pop
 #else
