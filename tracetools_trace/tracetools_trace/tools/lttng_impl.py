@@ -61,6 +61,7 @@ def setup(
     context_names: Union[List[str], Set[str]] = DEFAULT_CONTEXT,
     channel_name_ust: str = 'ros2',
     channel_name_kernel: str = 'kchan',
+    extra_cmds: Optional[List[Union[List[str], str]]] = None,
 ) -> Optional[str]:
     """
     Set up LTTng session, with events and context.
@@ -74,6 +75,7 @@ def setup(
     :param context_names: list of context elements to enable
     :param channel_name_ust: the UST channel name
     :param channel_name_kernel: the kernel channel name
+    :param extra_cmds: the list of extra commands to run after the main LTTng configuration
     :return: the full path to the trace directory
     """
     # Check if there is a session daemon running
@@ -158,6 +160,11 @@ def setup(
     handles_context = [handle_ust]
     enabled_handles: List[lttng.Handle] = list(filter(None, handles_context))
     _add_context(enabled_handles, context_list)
+
+    # Execute extra commands
+    if extra_cmds:
+        for extra_cmd in extra_cmds:
+            _execute_command(extra_cmd)
 
     return full_path
 
@@ -352,3 +359,29 @@ def _add_context(
             result = lttng.add_context(handle, contex, None, None)
             if result < 0:
                 raise RuntimeError(f'failed to add context: {lttng.strerror(result)}')
+
+
+def _execute_command(
+    cmd: Union[List[str], str],
+) -> None:
+    """
+    Execute a command.
+
+    The command should be either a list of strings or a string.
+    See `args` parameter documentation in `subprocess`' documentation.
+
+    If the command has a non-zero return code, a `RuntimeError` will
+    be raised and will include the process' stdout+stderr output.
+
+    :param cmd: the command to execute
+    """
+    process = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    stdout, stderr = process.communicate()
+    if 0 != process.returncode:
+        oneline_cmd = ' '.join(cmd) if isinstance(cmd, list) else cmd
+        raise RuntimeError(
+            f"error running '{oneline_cmd}': {stdout.decode()} {stderr.decode()}")
