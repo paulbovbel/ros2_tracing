@@ -12,7 +12,7 @@ stages:
 .before_script_build: &before_script_build
   before_script:
     - vcs import < instrumented.repos
-    - . /root/ws/install/local_setup.sh
+    - . /root/ws/install/setup.sh
 .build_artifacts: &build_artifacts
   artifacts:
     paths:
