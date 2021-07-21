@@ -58,10 +58,15 @@ DEFAULT_EVENTS_KERNEL = [
     'power_cpu_frequency',
 ]
 
+DEFAULT_EVENTS_DDS = [
+    'dds:write',
+]
+
 DEFAULT_EVENTS_ROS = [
     'ros2:rcl_init',
     'ros2:rcl_node_init',
     'ros2:rcl_publisher_init',
+    'ros2:rmw_publish',
     'ros2:rcl_publish',
     'ros2:rclcpp_publish',
     'ros2:rcl_subscription_init',

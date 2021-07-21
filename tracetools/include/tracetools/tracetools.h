@@ -106,6 +106,20 @@ DECLARE_TRACEPOINT(
   const char * topic_name,
   const size_t queue_depth)
 
+/// `rmw_publish`
+/**
+ * Message publication.
+ * Links a `rmw_publisher_t` handle to a pointer to
+ * a message being published at the `rmw` level.
+ *
+ * \param[in] rmw_publisher_handle pointer to the publisher's `rmw_publisher_t` handle
+ * \param[in] message pointer to the message being published
+ */
+DECLARE_TRACEPOINT(
+  rmw_publish,
+  const void * rmw_publisher_handle,
+  const void * message)
+
 /// `rcl_publish`
 /**
  * Message publication.
