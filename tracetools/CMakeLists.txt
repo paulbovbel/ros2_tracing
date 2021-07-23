@@ -62,7 +62,12 @@ if(TRACETOOLS_LTTNG_ENABLED)
   )
 endif()
 
-add_library(${PROJECT_NAME} ${SOURCES})
+if(NOT TRACETOOLS_DISABLED)
+  add_library(${PROJECT_NAME} ${SOURCES})
+else()
+  # only export a target with headers when disabled
+  add_library(${PROJECT_NAME} INTERFACE)
+endif()
 if(TRACETOOLS_LTTNG_ENABLED)
   target_link_libraries(${PROJECT_NAME} ${LTTNG_LIBRARIES})
   # Export -rdynamic for downtream packages to use when calling
@@ -81,18 +86,25 @@ if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "TRACETOOLS_BUILDING_DLL")
 endif()
 
-# Only use output/binary include directory
-target_include_directories(${PROJECT_NAME} PUBLIC
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
-  "$<INSTALL_INTERFACE:include>"
-)
+if(NOT TRACETOOLS_DISABLED)
+  # Only use output/binary include directory
+  target_include_directories(${PROJECT_NAME} PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+    "$<INSTALL_INTERFACE:include>"
+  )
+else()
+  target_include_directories(${PROJECT_NAME} INTERFACE
+    "$<INSTALL_INTERFACE:include>"
+  )
+endif()
+
 set(export_target_options)
 if(NOT TRACETOOLS_DISABLED)
   set(export_target_options "HAS_LIBRARY_TARGET")
 endif()
 ament_export_targets(${PROJECT_NAME}_export ${export_target_options})
 
-if(TRACETOOLS_STATUS_CHECKING_TOOL)
+if(TRACETOOLS_STATUS_CHECKING_TOOL AND NOT TRACETOOLS_DISABLED)
   # Lib for status checking
   add_library(${PROJECT_NAME}_status
     src/status.c
@@ -159,7 +171,7 @@ if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 
-  if(TRACETOOLS_STATUS_CHECKING_TOOL)
+  if(TRACETOOLS_STATUS_CHECKING_TOOL AND NOT TRACETOOLS_DISABLED)
     find_package(ament_cmake_gtest REQUIRED)
     ament_add_gtest(test_status test/test_status.cpp)
     if(TARGET test_status)
@@ -176,4 +188,6 @@ endif()
 
 ament_package()
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_VERSION="${${PROJECT_NAME}_VERSION}")
+if(NOT TRACETOOLS_DISABLED)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_VERSION="${${PROJECT_NAME}_VERSION}")
+endif()
