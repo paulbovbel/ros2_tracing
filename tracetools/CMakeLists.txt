@@ -86,9 +86,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"
 )
+set(export_target_options)
 if(NOT TRACETOOLS_DISABLED)
-  ament_export_targets(${PROJECT_NAME}_export HAS_LIBRARY_TARGET)
+  set(export_target_options "HAS_LIBRARY_TARGET")
 endif()
+ament_export_targets(${PROJECT_NAME}_export ${export_target_options})
 
 if(TRACETOOLS_STATUS_CHECKING_TOOL)
   # Lib for status checking
