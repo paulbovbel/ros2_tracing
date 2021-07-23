@@ -80,11 +80,6 @@ if(TRACETOOLS_LTTNG_ENABLED)
     target_link_libraries(${PROJECT_NAME} "-rdynamic")
   endif()
 endif()
-if(WIN32)
-  # Causes the visibility macros to use dllexport rather than dllimport
-  # which is appropriate when building the dll but not consuming it.
-  target_compile_definitions(${PROJECT_NAME} PRIVATE "TRACETOOLS_BUILDING_DLL")
-endif()
 
 if(NOT TRACETOOLS_DISABLED)
   # Only use output/binary include directory
