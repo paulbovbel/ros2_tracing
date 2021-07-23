@@ -22,6 +22,7 @@ extern "C"
 {
 #endif
 
+TRACETOOLS_PUBLIC
 int tracetools_status(bool trace_compile_status_enabled);
 
 #ifdef __cplusplus
