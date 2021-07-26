@@ -89,6 +89,7 @@ if(NOT TRACETOOLS_DISABLED)
   )
 else()
   target_include_directories(${PROJECT_NAME} INTERFACE
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
     "$<INSTALL_INTERFACE:include>"
   )
 endif()
@@ -99,7 +100,7 @@ if(NOT TRACETOOLS_DISABLED)
 endif()
 ament_export_targets(${PROJECT_NAME}_export ${export_target_options})
 
-if(TRACETOOLS_STATUS_CHECKING_TOOL AND NOT TRACETOOLS_DISABLED)
+if(TRACETOOLS_STATUS_CHECKING_TOOL)
   # Lib for status checking
   add_library(${PROJECT_NAME}_status
     src/status.c
@@ -166,7 +167,7 @@ if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 
-  if(TRACETOOLS_STATUS_CHECKING_TOOL AND NOT TRACETOOLS_DISABLED)
+  if(TRACETOOLS_STATUS_CHECKING_TOOL)
     find_package(ament_cmake_gtest REQUIRED)
     ament_add_gtest(test_status test/test_status.cpp)
     if(TARGET test_status)
