@@ -15,12 +15,13 @@
 """Module with functions for reading traces."""
 
 import os
-from typing import Iterable
 from typing import List
 
-import babeltrace
-
 from . import DictEvent
+from .babeltrace import get_babeltrace_impl
+
+
+impl = get_babeltrace_impl()
 
 
 def is_trace_directory(path: str) -> bool:
@@ -33,22 +34,7 @@ def is_trace_directory(path: str) -> bool:
     path = os.path.expanduser(path)
     if not os.path.isdir(path):
         return False
-    tc = babeltrace.TraceCollection()
-    # Could still return an empty dict even if it is not a trace directory (recursively)
-    traces = tc.add_traces_recursive(path, 'ctf')
-    return traces is not None and len(traces) > 0
-
-
-def get_trace_ctf_events(trace_directory: str) -> Iterable[babeltrace.babeltrace.Event]:
-    """
-    Get the events of a trace.
-
-    :param trace_directory: the path to the main/top trace directory
-    :return: events iterable
-    """
-    tc = babeltrace.TraceCollection()
-    tc.add_traces_recursive(trace_directory, 'ctf')
-    return tc.events
+    return impl.is_trace_directory(path)  # type: ignore
 
 
 def get_trace_events(trace_directory: str) -> List[DictEvent]:
@@ -58,39 +44,4 @@ def get_trace_events(trace_directory: str) -> List[DictEvent]:
     :param trace_directory: the path to the main/top trace directory
     :return: events
     """
-    events: List[DictEvent] = [
-        event_to_dict(event) for event in get_trace_ctf_events(trace_directory)
-    ]
-    return events
-
-
-# List of ignored CTF fields
-_IGNORED_FIELDS = [
-    'content_size',
-    'events_discarded',
-    'id',
-    'packet_size',
-    'packet_seq_num',
-    'stream_id',
-    'stream_instance_id',
-    'timestamp_end',
-    'timestamp_begin',
-    'magic',
-    'uuid',
-    'v',
-]
-_DISCARD = 'events_discarded'
-
-
-def event_to_dict(event: babeltrace.babeltrace.Event) -> DictEvent:
-    """
-    Convert name, timestamp, and all other keys except those in IGNORED_FIELDS into a dictionary.
-
-    :param event: the event to convert
-    :return: the event as a dictionary
-    """
-    if hasattr(event, _DISCARD) and event[_DISCARD] > 0:
-        print(event[_DISCARD])
-    meta = {'_name': event.name, '_timestamp': event.timestamp}
-    data = {key: event[key] for key in event.keys() if key not in _IGNORED_FIELDS}
-    return {**meta, **data}
+    return impl.get_trace_events(trace_directory)  # type: ignore
