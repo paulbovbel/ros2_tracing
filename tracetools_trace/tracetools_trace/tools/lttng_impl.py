@@ -1,4 +1,5 @@
 # Copyright 2019 Robert Bosch GmbH
+# Copyright 2021 Christophe Bedard
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ from .names import DEFAULT_EVENTS_KERNEL
 from .names import DEFAULT_EVENTS_ROS
 
 
-def get_version() -> Union[StrictVersion, None]:
+def get_version() -> Optional[StrictVersion]:
     """
     Get the version of the lttng module.
 
@@ -52,6 +53,7 @@ def get_version() -> Union[StrictVersion, None]:
 
 
 def setup(
+    *,
     session_name: str,
     base_path: str,
     ros_events: Union[List[str], Set[str]] = DEFAULT_EVENTS_ROS,
@@ -59,6 +61,7 @@ def setup(
     context_names: Union[List[str], Set[str]] = DEFAULT_CONTEXT,
     channel_name_ust: str = 'ros2',
     channel_name_kernel: str = 'kchan',
+    extra_cmds: Optional[List[Union[List[str], str]]] = None,
 ) -> Optional[str]:
     """
     Set up LTTng session, with events and context.
@@ -72,6 +75,7 @@ def setup(
     :param context_names: list of context elements to enable
     :param channel_name_ust: the UST channel name
     :param channel_name_kernel: the kernel channel name
+    :param extra_cmds: the list of extra commands to run after the main LTTng configuration
     :return: the full path to the trace directory
     """
     # Check if there is a session daemon running
@@ -157,11 +161,18 @@ def setup(
     enabled_handles: List[lttng.Handle] = list(filter(None, handles_context))
     _add_context(enabled_handles, context_list)
 
+    # Execute extra commands
+    if extra_cmds:
+        for extra_cmd in extra_cmds:
+            _execute_command(extra_cmd)
+
     return full_path
 
 
 def start(
+    *,
     session_name: str,
+    **kwargs,
 ) -> None:
     """
     Start LTTng session, and check for errors.
@@ -174,7 +185,9 @@ def start(
 
 
 def stop(
+    *,
     session_name: str,
+    **kwargs,
 ) -> None:
     """
     Stop LTTng session, and check for errors.
@@ -187,7 +200,9 @@ def stop(
 
 
 def destroy(
+    *,
     session_name: str,
+    **kwargs,
 ) -> None:
     """
     Destroy LTTng session, and check for errors.
@@ -229,11 +244,12 @@ def _create_session(
     :param full_path: the full path to the main directory to write trace data to
     """
     result = lttng.create(session_name, full_path)
-    LTTNG_ERR_EXIST_SESS = 28
+    # See lttng-tools/include/lttng/lttng-error.h
+    LTTNG_ERR_EXIST_SESS = 28  # noqa: N806
     if result == -LTTNG_ERR_EXIST_SESS:
         # Sessions seem to persist, so if it already exists,
         # just destroy it and try again
-        destroy(session_name)
+        destroy(session_name=session_name)
         result = lttng.create(session_name, full_path)
     if result < 0:
         raise RuntimeError(f'session creation failed: {lttng.strerror(result)}')
@@ -298,7 +314,7 @@ context_map = {
 
 def _context_name_to_type(
     context_name: str,
-) -> Union[int, None]:
+) -> Optional[int]:
     """
     Convert from context name to LTTng enum/constant type.
 
@@ -344,3 +360,29 @@ def _add_context(
             result = lttng.add_context(handle, contex, None, None)
             if result < 0:
                 raise RuntimeError(f'failed to add context: {lttng.strerror(result)}')
+
+
+def _execute_command(
+    cmd: Union[List[str], str],
+) -> None:
+    """
+    Execute a command.
+
+    The command should be either a list of strings or a string.
+    See `args` parameter documentation in `subprocess`' documentation.
+
+    If the command has a non-zero return code, a `RuntimeError` will
+    be raised and will include the process' stdout+stderr output.
+
+    :param cmd: the command to execute
+    """
+    process = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    stdout, stderr = process.communicate()
+    if 0 != process.returncode:
+        oneline_cmd = ' '.join(cmd) if isinstance(cmd, list) else cmd
+        raise RuntimeError(
+            f"error running '{oneline_cmd}': {stdout.decode()} {stderr.decode()}")

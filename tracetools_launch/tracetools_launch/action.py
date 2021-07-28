@@ -1,4 +1,5 @@
 # Copyright 2019 Robert Bosch GmbH
+# Copyright 2021 Christophe Bedard
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +18,7 @@
 import re
 from typing import List
 from typing import Optional
+from typing import Union
 
 from launch import logging
 from launch.action import Action
@@ -53,6 +55,7 @@ class Trace(Action):
         events_ust: List[str] = names.DEFAULT_EVENTS_ROS,
         events_kernel: List[str] = names.DEFAULT_EVENTS_KERNEL,
         context_names: List[str] = names.DEFAULT_CONTEXT,
+        extra_cmds: Optional[List[Union[List[str], str]]] = None,
         profile_fast: bool = True,
         **kwargs,
     ) -> None:
@@ -66,6 +69,7 @@ class Trace(Action):
         :param events_ust: the list of ROS UST events to enable
         :param events_kernel: the list of kernel events to enable
         :param context_names: the list of context names to enable
+        :param extra_cmds: the list of extra commands to run after the main LTTng configuration
         :param profile_fast: `True` to use fast profiling, `False` for normal (only if necessary)
         """
         super().__init__(**kwargs)
@@ -76,6 +80,7 @@ class Trace(Action):
         self.__events_ust = events_ust
         self.__events_kernel = events_kernel
         self.__context_names = context_names
+        self.__extra_cmds = extra_cmds
         self.__profile_fast = profile_fast
         self.__logger = logging.get_logger(__name__)
         self.__ld_preload_actions: List[LdPreload] = []
@@ -128,17 +133,18 @@ class Trace(Action):
 
     def _setup(self) -> None:
         trace_directory = lttng.lttng_init(
-            self.__session_name,
-            self.__base_path,
+            session_name=self.__session_name,
+            base_path=self.__base_path,
             ros_events=self.__events_ust,
             kernel_events=self.__events_kernel,
             context_names=self.__context_names,
+            extra_cmds=self.__extra_cmds,
         )
         self.__logger.info(f'Writing tracing session to: {trace_directory}')
 
     def _destroy(self, event: Event, context: LaunchContext) -> None:
         self.__logger.debug(f'Finalizing tracing session: {self.__session_name}')
-        lttng.lttng_fini(self.__session_name)
+        lttng.lttng_fini(session_name=self.__session_name)
 
     def __repr__(self):
         return (
@@ -148,6 +154,7 @@ class Trace(Action):
             f'num_events_ust={len(self.__events_ust)}, '
             f'num_events_kernel={len(self.__events_kernel)}, '
             f'context_names={self.__context_names}, '
+            f'extra_cmds={self.__extra_cmds}, '
             f'profile_fast={self.__profile_fast}, '
             f'ld_preload_actions={self.__ld_preload_actions})'
         )
