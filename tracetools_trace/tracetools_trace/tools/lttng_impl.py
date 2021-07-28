@@ -245,7 +245,8 @@ def _create_session(
     """
     result = lttng.create(session_name, full_path)
     # See lttng-tools/include/lttng/lttng-error.h
-    if -28 == result:
+    LTTNG_ERR_EXIST_SESS = 28  # noqa: N806
+    if result == -LTTNG_ERR_EXIST_SESS:
         # Sessions seem to persist, so if it already exists,
         # just destroy it and try again
         destroy(session_name=session_name)
