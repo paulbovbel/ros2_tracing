@@ -33,6 +33,7 @@ class TestPubSub(TraceTestCase):
                 'ros2:callback_start',
                 'ros2:callback_end',
             ],
+            package='test_tracetools',
             nodes=['test_ping', 'test_pong'],
         )
 
